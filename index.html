@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <canvas id='canvas' width=300 height=300 style='border:1px solid black; display:block; float:left;'></canvas>
+
+    <div style="display:block; float:left; width:200px; padding-left:10px;">
+
+        <b>[FOR MITHUNA'S EYES ONLY]</b>
+
+        <br><br>
+
+        Draw wavefunction as...
+        <select id="mode">
+            <option value="laser">Laser Smokescreen (just wavefunction's magnitude)</option>
+            <option value="rainbow">Rainbow (phase is color wheel, magnitude is brightness)</option>
+            <option value="grayscale">Grayscale</option>
+            <option value="rainbow_animation">Rainbow, fake-animated</option>
+            <option value="grayscale_animation">Grayscale, fake-animated</option>
+        </select>
+        <br><br>
+
+        Slit Width:
+        <br>
+        <input id="slit_width" type="range" min="0" max="20" value="0" step="0.01">
+        <br><br>
+
+        2nd Source's Phase Difference:
+        <br>
+        <input id="second_phase" type="range" min="-2" max="2" value="0" step="0.01">
+        <br><br>
+
+        2nd Source's Magnitude:
+        <br>
+        <input id="second_mag" type="range" min="0" max="1" value="1" step="0.01">
+
+    </div>
+
+</body>
+</html>
+
+<script src="colorConverter.js"></script>
+<script src="quantum.js"></script>
