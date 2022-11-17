@@ -1,0 +1,22 @@
+#container{
+    width:720px;
+    height:360px;
+    position: absolute;
+    margin: auto;
+    top:0; bottom:0; left:0; right:0;
+
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+    line-height: 1.5em;
+}
+#canvas{
+    display:block; float:left;
+    width:300px;
+    height:300px;
+}
+#controls{
+    display:block; float:left;
+    width:400px;
+    padding-left:20px;
+}
