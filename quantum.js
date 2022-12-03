@@ -10,13 +10,19 @@ canvas.height = 300;
 // Inputs
 const WAVELENGTH = 15;
 let SLIT_WIDTH = 3;
+let SLIT_Y = 300;
 let SECOND_PHASE = 0;
 let SECOND_MAG = 1;
+let SECOND_FREQ = 1;
 let PLEASE_REDRAW = false;
 
 let input_slit_width = document.querySelector("#slit_width");
 input_slit_width.oninput = ()=>{ SLIT_WIDTH=parseFloat(input_slit_width.value); PLEASE_REDRAW=true; };
 input_slit_width.value = SLIT_WIDTH;
+
+let input_slit_y = document.querySelector("#slit_y");
+input_slit_y.oninput = ()=>{ SLIT_Y=parseFloat(input_slit_y.value); PLEASE_REDRAW=true; };
+input_slit_y.value = SLIT_Y;
 
 let input_second_phase = document.querySelector("#second_phase");
 input_second_phase.oninput = ()=>{ SECOND_PHASE=parseFloat(input_second_phase.value); PLEASE_REDRAW=true; };
@@ -26,12 +32,16 @@ let input_second_mag = document.querySelector("#second_mag");
 input_second_mag.oninput = ()=>{ SECOND_MAG=parseFloat(input_second_mag.value); PLEASE_REDRAW=true; };
 input_second_mag.value = SECOND_MAG;
 
+let input_second_freq = document.querySelector("#second_freq");
+input_second_freq.oninput = ()=>{ SECOND_FREQ=parseFloat(input_second_freq.value); PLEASE_REDRAW=true; };
+input_second_freq.value = SECOND_FREQ;
+
 // Calculate amplitude from pixel-position & wave source
 // phase is in REVOLUTIONS, not degrees or radians.
-let calculateAmplitude = (pt, src, phase_diff=0, mag=1)=>{
+let calculateAmplitude = (pt, src, phase_diff=0, mag=1, freq=1)=>{
     let dx = pt[0] - src[0],
         dy = pt[1] - src[1];
-    let phase = Math.sqrt( dx*dx + dy*dy )/WAVELENGTH;
+    let phase = Math.sqrt( dx*dx + dy*dy )/(WAVELENGTH/freq);
     phase += phase_diff;
     mag *= 0.5;
     return [phase, mag];
@@ -128,8 +138,8 @@ let redraw = ()=>{
 
             // The interference at that point... sum of two paths
             let width = SLIT_WIDTH*WAVELENGTH/2;
-            let amp1 = calculateAmplitude([x,y], [150-width,300]),
-                amp2 = calculateAmplitude([x,y], [150+width,300], SECOND_PHASE, SECOND_MAG),
+            let amp1 = calculateAmplitude([x,y], [150-width,SLIT_Y]),
+                amp2 = calculateAmplitude([x,y], [150+width,SLIT_Y], SECOND_PHASE, SECOND_MAG, SECOND_FREQ),
                 interference = addAmps(amp1, amp2);
             let rgb = calculateColorFromAmplitude(interference);
 
