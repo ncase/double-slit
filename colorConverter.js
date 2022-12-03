@@ -1,5 +1,6 @@
 // By Stephen Weiss
 // from this GitHub thread: https://gist.github.com/mjackson/5311256
+// Modified by Ricardo Fernández Serrata: https://github.com/ncase/double-slit/pull/1
 
 function hsv2rgb(h,s,v){
   /**
@@ -24,5 +25,11 @@ function hsv2rgb(h,s,v){
     case 5: { r = c; g = 0; b = x; break}
   }
 
-  return [r, g, b].map(x => Math.round( (x + m)* 0xff))
+  // return [r, g, b].map(x => Math.round( (x + m)* 0xff))
+  // Doing this instead of map, because map+function call is inefficient over so many pixels
+  r = Math.round( (r + m)*255);
+  g = Math.round( (g + m)*255);
+  b = Math.round( (b + m)*255);
+  return [r, g, b];
+
 }
