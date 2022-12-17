@@ -14,22 +14,23 @@ function hsv2rgb(h,s,v){
   const c = v * s;
   const x = c * (1 - Math.abs(hprime % 2 - 1));
   const m = v - c;
-  let r, g, b;
-  if (isNaN(hprime)) {r = 0; g = 0; b = 0; }
-  switch (Math.floor(hprime)) {
-    case 0: { r = c; g = x; b = 0; break}
-    case 1: { r = x; g = c; b = 0; break}
-    case 2: { r = 0; g = c; b = x; break}
-    case 3: { r = 0; g = x; b = c; break}
-    case 4: { r = x; g = 0; b = c; break}
-    case 5: { r = c; g = 0; b = x; break}
-  }
+  const rgb = isNaN(hprime) ? [0, 0, 0] : [
+    [c, x, 0]
+    [x, c, 0]
+    [0, c, x]
+    [0, x, c]
+    [x, 0, c]
+    [c, 0, x]
+  ][Math.floor(hprime)];
 
-  // return [r, g, b].map(x => Math.round( (x + m)* 0xff))
-  // Doing this instead of map, because map+function call is inefficient over so many pixels
-  r = Math.round( (r + m)*255);
-  g = Math.round( (g + m)*255);
-  b = Math.round( (b + m)*255);
-  return [r, g, b];
+  //return rgb.map(x => Math.round( (x + m)* 0xff))
+  // Doing this instead of map, because map+function call is inefficient over so many pixels.
+  // This is loop-unrolling & function inlining.
+  rgb[0] = Math.round( (rgb[0] + m)*255);
+  rgb[1] = Math.round( (rgb[1] + m)*255);
+  rgb[2] = Math.round( (rgb[2] + m)*255);
+  // to avoid creating a new array,
+  // we reuse the existing one
+  return rgb;
 
 }
